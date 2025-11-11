@@ -26,6 +26,7 @@ It allows applications to verify the authenticity and details of payment receipt
 - Extracts key transaction details:
   - Payer name and Telebirr number
   - Credited party name and account
+  - Bank name (if the transaction was made to another bank)
   - Transaction status
   - Receipt number
   - Payment date
