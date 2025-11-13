@@ -367,7 +367,7 @@ Get information about the API and available endpoints.
 ```json
 {
   "message": "Verifier API is running",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "endpoints": ["/verify-cbe", "/verify-telebirr", "/verify-dashen", "/verify-abyssinia", "/verify-cbebirr", "/verify-image"],
   "health": "/health",
   "documentation": "https://github.com/Vixen878/verifier-api"

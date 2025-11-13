@@ -1,6 +1,6 @@
 {
   "name": "cbe-verifier-api",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "migrate-api-keys": "ts-node src/utils/migrateApiKeys.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Leul Zenebe",
   "license": "ISC",
   "dependencies": {
     "@mistralai/mistralai": "^1.6.0",

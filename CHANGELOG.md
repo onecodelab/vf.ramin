@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.0] - 2025-11-13
+
+### Added
+- Telebirr: Return `bankName` in receipt payloads.
+
+### Changed
+- Bump API version to `2.1.0` in package.json, root endpoint, README, Postman collection.
+
 ## [1.1.0] - 2025-05-18
 
 > This release introduces the first major backend expansion: transitioning from a fully in-memory system to a database-powered API with authentication, stats, and admin tools.
