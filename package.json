@@ -1,5 +1,5 @@
 {
-  "name": "cbe-verifier-api",
+  "name": "verifier-api",
   "version": "2.1.0",
   "description": "",
   "main": "index.js",
