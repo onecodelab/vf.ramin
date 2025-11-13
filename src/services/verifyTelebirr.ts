@@ -14,6 +14,7 @@ export interface TelebirrReceipt {
     serviceFee: string;
     serviceFeeVAT: string;
     totalPaidAmount: string;
+    bankName: string;
 }
 
 /**
@@ -244,18 +245,36 @@ function scrapeTelebirrReceipt(html: string): TelebirrReceipt {
     const regexResults = extractWithRegexLegacy(html);
     logger.debug("Regex results:", regexResults);
 
+    let creditedPartyName = getTextWithFallback("የገንዘብ ተቀባይ ስም/Credited Party name");
+    let creditedPartyAccountNo = getTextWithFallback("የገንዘብ ተቀባይ ቴሌብር ቁ./Credited party account no");
+    let bankName = "";
+
+    const bankAccountNumberRaw = getTextWithFallback("የባንክ አካውንት ቁጥር/Bank account number");
+
+    if (bankAccountNumberRaw) {
+        bankName = creditedPartyName; // The original credited party name is the bank
+        const bankAccountRegex = /(\d+)\s+(.*)/;
+        const match = bankAccountNumberRaw.match(bankAccountRegex);
+        if (match) {
+            creditedPartyAccountNo = match[1].trim();
+            creditedPartyName = match[2].trim();
+        }
+    }
+
+
     return {
         payerName: getTextWithFallback("የከፋይ ስም/Payer Name"),
         payerTelebirrNo: getTextWithFallback("የከፋይ ቴሌብር ቁ./Payer telebirr no."),
-        creditedPartyName: getTextWithFallback("የገንዘብ ተቀባይ ስም/Credited Party name"),
-        creditedPartyAccountNo: getTextWithFallback("የገንዘብ ተቀባይ ቴሌብር ቁ./Credited party account no"),
+        creditedPartyName,
+        creditedPartyAccountNo,
         transactionStatus: getTextWithFallback("የክፍያው ሁኔታ/transaction status"),
         receiptNo: getReceiptNo(),
         paymentDate: getPaymentDate(),
         settledAmount: getSettledAmount(),
         serviceFee: getServiceFee(),
         serviceFeeVAT: getTextWithFallback("የአገልግሎት ክፍያ ተ.እ.ታ/Service fee VAT"),
-        totalPaidAmount: getTextWithFallback("ጠቅላላ የተከፈለ/Total Paid Amount")
+        totalPaidAmount: getTextWithFallback("ጠቅላላ የተከፈለ/Total Paid Amount"),
+        bankName
     };
 }
 
@@ -285,7 +304,8 @@ function parseTelebirrJson(jsonData: any): TelebirrReceipt | null {
             settledAmount: data.settledAmount || "",
             serviceFee: data.serviceFee || "",
             serviceFeeVAT: data.serviceFeeVAT || "",
-            totalPaidAmount: data.totalPaidAmount || ""
+            totalPaidAmount: data.totalPaidAmount || "",
+            bankName: data.bankName || ""
         };
     } catch (error) {
         logger.error("Error parsing JSON from proxy endpoint", { error, jsonData });
